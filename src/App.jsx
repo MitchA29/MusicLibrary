@@ -9,8 +9,32 @@ class App extends Component {
         super(props);
         this.state = {
             songs: [],
-            input: "",
-        }
+        };
+    }
+
+    componentDidMount(){
+        this.getSongs();
+    }
+
+    async getSongs(){
+        let response = await axios.get("")
+        console.log(response.data.jokes);
+        this.setState({
+            songs: response.data.songs
+        })
+    }
+
+    createSong(newSong){
+        console.log("From the SongForm on App component", newSong);
+        this.songs.push(newSong);
+    }
+
+    render() {
+        return(
+            <div className="container-fluid">
+                <SongForm createNewSong={this.createSong} />
+            </div>
+        )
     }
 }
 
