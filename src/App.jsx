@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import MusicTable from './components/MusicTable/MusicTable';
+import TitleBar from './components/TitleBar/TitleBar';
 import SongForm from './components/SongForm/SongForm';
-import SearchBar from './components/SearchBar/SearchBar';
+import MusicTable from './components/MusicTable/MusicTable';
+
 
 class App extends Component {
     constructor(props){
@@ -17,21 +18,24 @@ class App extends Component {
     }
 
     async getSongs(){
-        let response = await axios.get("")
+        let response = await axios.get("http://127.0.0.1:8000/music/")
         console.log(response.data.jokes);
         this.setState({
             songs: response.data.songs
         })
     }
 
-    createSong(newSong){
+    async createSong(newSong){
         console.log("From the SongForm on App component", newSong);
-        this.songs.push(newSong);
+        let response = await axios.post("http://127.0.0.1:8000/music/", newSong)
+        console.log(response)
     }
 
     render() {
         return(
             <div className="container-fluid">
+                <TitleBar />
+                <MusicTable />
                 <SongForm createNewSong={this.createSong} />
             </div>
         )
